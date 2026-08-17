@@ -31,3 +31,4 @@ graphify-out/
 .DS_Store
 Thumbs.db
 *.bag
+.claude/
