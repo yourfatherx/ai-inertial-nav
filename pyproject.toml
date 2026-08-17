@@ -1,0 +1,20 @@
+[project]
+name = "ai-inertial-nav"
+version = "0.1.0"
+description = "AI-based inertial navigation for GPS-denied environments (Approach B: learned IMU denoising + ESKF)"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "torch",
+    "numpy",
+    "scipy",
+    "matplotlib",
+    "tqdm",
+]
+
+# PyTorch CUDA 12.4 wheels come from the PyTorch index.
+# Install with:
+#   uv pip install --index-url https://download.pytorch.org/whl/cu124 torch
+#   uv pip install numpy scipy matplotlib tqdm
+
+[tool.setuptools.packages.find]
+where = ["src"]

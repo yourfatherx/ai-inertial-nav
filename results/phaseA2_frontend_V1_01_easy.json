@@ -1,0 +1,70 @@
+{
+  "seq": "V1_01_easy",
+  "n_frames": 200,
+  "results": {
+    "clean": {
+      "KLT": {
+        "mean_track_len": 80.88439955106622,
+        "median_track_len": 51.0,
+        "mean_tracks_per_frame": 360.34,
+        "inlier_ratio": 0.9858100229006561,
+        "n_features_total": 891
+      },
+      "SuperPoint+LightGlue": {
+        "mean_track_len": 12.492192379762649,
+        "median_track_len": 2.0,
+        "mean_tracks_per_frame": 400.0,
+        "inlier_ratio": 0.9459889124408936,
+        "n_features_total": 6404
+      }
+    },
+    "blur": {
+      "KLT": {
+        "mean_track_len": 62.527377521613836,
+        "median_track_len": 32.0,
+        "mean_tracks_per_frame": 325.455,
+        "inlier_ratio": 0.9762529274004684,
+        "n_features_total": 1041
+      },
+      "SuperPoint+LightGlue": {
+        "mean_track_len": 6.541291905151267,
+        "median_track_len": 1.0,
+        "mean_tracks_per_frame": 400.0,
+        "inlier_ratio": 0.9034971226206286,
+        "n_features_total": 12230
+      }
+    },
+    "lowlight": {
+      "KLT": {
+        "mean_track_len": 73.97876857749469,
+        "median_track_len": 32.0,
+        "mean_tracks_per_frame": 348.44,
+        "inlier_ratio": 0.7564076455357402,
+        "n_features_total": 942
+      },
+      "SuperPoint+LightGlue": {
+        "mean_track_len": 3.2526765518974616,
+        "median_track_len": 1.0,
+        "mean_tracks_per_frame": 323.56,
+        "inlier_ratio": 0.7582613740321753,
+        "n_features_total": 19895
+      }
+    },
+    "lowtexture": {
+      "KLT": {
+        "mean_track_len": 28.01687937422808,
+        "median_track_len": 6.0,
+        "mean_tracks_per_frame": 340.265,
+        "inlier_ratio": 0.9342618554187493,
+        "n_features_total": 2429
+      },
+      "SuperPoint+LightGlue": {
+        "mean_track_len": 3.4134728849212457,
+        "median_track_len": 1.0,
+        "mean_tracks_per_frame": 332.66,
+        "inlier_ratio": 0.699113539252992,
+        "n_features_total": 19491
+      }
+    }
+  }
+}

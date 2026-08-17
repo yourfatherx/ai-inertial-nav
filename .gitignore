@@ -1,0 +1,33 @@
+# Virtual environment
+.venv/
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Large raw datasets (5.8 GB — download via scripts)
+data/euroc/*/
+data/tumvi/*/
+# keep the placeholder
+!data/euroc/.gitkeep
+
+# Large binary results (model checkpoints, trajectory dumps)
+results/a2_backend/
+results/*.pt
+results/seeds/
+results/est_*.txt
+
+# Logs
+results/*.log
+results/sci_install.log
+results/torch_install.log
+
+# Graphify generated output
+graphify-out/
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+*.bag

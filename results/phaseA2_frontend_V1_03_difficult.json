@@ -1,0 +1,70 @@
+{
+  "seq": "V1_03_difficult",
+  "n_frames": 200,
+  "results": {
+    "clean": {
+      "KLT": {
+        "mean_track_len": 43.70674486803519,
+        "median_track_len": 10.5,
+        "mean_tracks_per_frame": 298.08,
+        "inlier_ratio": 0.9659239167753897,
+        "n_features_total": 1364
+      },
+      "SuperPoint+LightGlue": {
+        "mean_track_len": 7.036059806508355,
+        "median_track_len": 1.0,
+        "mean_tracks_per_frame": 400.0,
+        "inlier_ratio": 0.9102287629316625,
+        "n_features_total": 11370
+      }
+    },
+    "blur": {
+      "KLT": {
+        "mean_track_len": 41.03731746890211,
+        "median_track_len": 6.0,
+        "mean_tracks_per_frame": 379.39,
+        "inlier_ratio": 0.9689446027907982,
+        "n_features_total": 1849
+      },
+      "SuperPoint+LightGlue": {
+        "mean_track_len": 4.325961174498459,
+        "median_track_len": 1.0,
+        "mean_tracks_per_frame": 400.0,
+        "inlier_ratio": 0.8642756109060757,
+        "n_features_total": 18493
+      }
+    },
+    "lowlight": {
+      "KLT": {
+        "mean_track_len": 86.12704402515723,
+        "median_track_len": 48.0,
+        "mean_tracks_per_frame": 342.355,
+        "inlier_ratio": 0.6353951179147703,
+        "n_features_total": 795
+      },
+      "SuperPoint+LightGlue": {
+        "mean_track_len": 3.2563645439634885,
+        "median_track_len": 1.0,
+        "mean_tracks_per_frame": 228.32,
+        "inlier_ratio": 0.7839512025536487,
+        "n_features_total": 14023
+      }
+    },
+    "lowtexture": {
+      "KLT": {
+        "mean_track_len": 6.065768930523029,
+        "median_track_len": 1.0,
+        "mean_tracks_per_frame": 310.81,
+        "inlier_ratio": 0.9685826559309627,
+        "n_features_total": 10248
+      },
+      "SuperPoint+LightGlue": {
+        "mean_track_len": 3.124152648757218,
+        "median_track_len": 1.0,
+        "mean_tracks_per_frame": 248.87,
+        "inlier_ratio": 0.7446959399562674,
+        "n_features_total": 15932
+      }
+    }
+  }
+}

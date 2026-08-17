@@ -1,0 +1,11 @@
+# Add these lines to ov_msckf/cmake/ROS1.cmake, right after the run_simulation
+# target block (run_simulation is NOT inside the `if (catkin_FOUND AND ENABLE_ROS)`
+# guard, so this headless target belongs in the same top-level spot).
+
+add_executable(run_tracksfile src/run_tracksfile.cpp)
+target_link_libraries(run_tracksfile ov_msckf_lib ${thirdparty_libraries})
+install(TARGETS run_tracksfile
+        ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+        LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+        RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)

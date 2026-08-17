@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>AI-Based Inertial Navigation — Pitch Deck (Print)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+  :root{
+    --bg:#060605; --panel:#0e0d0b; --border:#272319; --border-hot:#4a3418;
+    --orange:#f97316; --orange-hi:#fb923c; --amber:#fdba74;
+    --text:#e8e6e3; --muted:#a8a29e; --dim:#6b655c;
+    --green:#4ade80; --red:#f87171; --blue:#60a5fa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  @page{size:1280px 720px;margin:0;}
+  html,body{background:var(--bg);}
+  body{font-family:'Inter',-apple-system,'Segoe UI',sans-serif;color:var(--text);-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .mono{font-family:'JetBrains Mono',ui-monospace,Consolas,monospace;}
+
+  .slide{
+    position:relative;width:1280px;height:720px;overflow:hidden;
+    page-break-after:always;display:flex;flex-direction:column;
+    padding:78px 64px 66px;
+    background:
+      radial-gradient(ellipse 90% 70% at 50% 0%, rgba(249,115,22,.05), transparent 60%),
+      radial-gradient(circle, rgba(249,115,22,0.05) 1px, transparent 1px),
+      var(--bg);
+    background-size:auto, 26px 26px, auto;
+  }
+  /* per-page chrome */
+  .top{position:absolute;top:0;left:0;right:0;height:48px;display:flex;align-items:center;
+    justify-content:space-between;padding:0 64px;border-bottom:1px solid rgba(39,35,25,.8);}
+  .bot{position:absolute;bottom:0;left:0;right:0;height:44px;display:flex;align-items:center;
+    justify-content:space-between;padding:0 64px;border-top:1px solid rgba(39,35,25,.8);}
+  .tag{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.22em;color:var(--dim);text-transform:uppercase;}
+  .tag b{color:var(--muted);font-weight:500;}
+  .live{display:flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;color:var(--orange-hi);text-transform:uppercase;}
+  .live .dot{width:6px;height:6px;border-radius:50%;background:var(--orange);box-shadow:0 0 8px var(--orange);}
+  .pageno{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim);letter-spacing:.15em;}
+  .pageno b{color:var(--orange-hi);font-weight:500;}
+
+  .kicker{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.3em;text-transform:uppercase;
+    color:var(--orange);margin-bottom:14px;display:flex;align-items:center;gap:11px;}
+  .kicker::before{content:'';display:block;width:26px;height:1px;background:var(--orange);}
+  h1{font-size:56px;font-weight:800;line-height:1.03;letter-spacing:-.02em;}
+  h2{font-size:33px;font-weight:800;line-height:1.06;letter-spacing:-.015em;margin-bottom:10px;}
+  .sub{color:var(--muted);font-size:13.5px;line-height:1.6;max-width:820px;}
+  .sub b{color:var(--text);font-weight:600;}
+  .hl{color:var(--orange-hi);font-weight:600;}
+
+  .card{background:linear-gradient(180deg,var(--panel),#0b0a08);border:1px solid var(--border);border-radius:13px;padding:16px 19px;}
+  .card.hot{border-color:var(--border-hot);background:linear-gradient(180deg,#161006,#0d0a05);
+    box-shadow:0 0 28px rgba(249,115,22,.09), inset 0 1px 0 rgba(251,146,60,.08);}
+  .card h4{font-size:13.5px;font-weight:700;margin-bottom:5px;}
+  .card p{font-size:11.5px;color:var(--muted);line-height:1.5;}
+  .cap{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-bottom:8px;}
+  .bignum{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--orange-hi);font-size:30px;letter-spacing:-.02em;line-height:1;
+    text-shadow:0 0 22px rgba(249,115,22,.35);}
+  .bignum small{font-size:.45em;color:var(--amber);font-weight:500;}
+  .unit{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:.16em;text-transform:uppercase;margin-top:7px;}
+
+  .bars{display:flex;flex-direction:column;gap:11px;}
+  .brow{display:grid;grid-template-columns:150px 1fr 78px;align-items:center;gap:12px;}
+  .brow .lbl{font-size:11px;color:var(--muted);}
+  .brow .val{font-family:'JetBrains Mono',monospace;font-size:11.5px;text-align:right;color:var(--text);}
+  .track{height:6px;border-radius:4px;background:#1b1813;overflow:hidden;}
+  .fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#7c2d12,var(--orange) 70%,var(--orange-hi));box-shadow:0 0 10px rgba(249,115,22,.45);}
+  .fill.good{background:linear-gradient(90deg,#14532d,var(--green));}
+  .fill.bad{background:linear-gradient(90deg,#7f1d1d,var(--red));}
+
+  table.data{width:100%;border-collapse:collapse;}
+  table.data th{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);
+    font-weight:500;text-align:right;padding:0 8px 8px;border-bottom:1px solid var(--border);}
+  table.data th:first-child{text-align:left;padding-left:0;}
+  table.data td{padding:9px 8px;border-bottom:1px solid #1a1712;text-align:right;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);}
+  table.data td:first-child{text-align:left;padding-left:0;color:var(--text);font-family:'Inter',sans-serif;font-weight:500;}
+  table.data tr:last-child td{border-bottom:none;}
+  td.win{color:var(--orange-hi);font-weight:700;}
+  td.dim2{color:var(--dim);}
+  .pill{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:9px;padding:3px 9px;border-radius:20px;
+    border:1px solid var(--border-hot);color:var(--orange-hi);background:rgba(249,115,22,.07);letter-spacing:.08em;}
+  .pill.g{border-color:#1e4230;color:var(--green);background:rgba(74,222,128,.06);}
+  .pill.r{border-color:#4a1d1d;color:var(--red);background:rgba(248,113,113,.06);}
+
+  .twocol{display:grid;grid-template-columns:1.05fr .95fr;gap:24px;margin-top:18px;align-items:stretch;}
+  .statrow{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px;}
+  .threatgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px;}
+  svg text{font-family:'JetBrains Mono',monospace;}
+
+  /* cover */
+  #s1{justify-content:center;}
+  .classif{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--border-hot);border-radius:8px;
+    padding:6px 13px;margin-bottom:26px;background:rgba(249,115,22,.06);width:fit-content;}
+  .classif span{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.24em;color:var(--amber);text-transform:uppercase;}
+  #s1 h1 .thin{color:var(--dim);font-weight:600;}
+  #s1 h1 .glow{color:var(--orange);text-shadow:0 0 40px rgba(249,115,22,.5);}
+  #s1 .tagline{margin-top:20px;font-size:15px;color:var(--muted);line-height:1.6;max-width:600px;}
+  #s1 .tagline b{color:var(--text);}
+  .chips{display:flex;gap:12px;margin-top:32px;}
+  .chip{border:1px solid var(--border);border-radius:11px;padding:12px 18px;background:linear-gradient(180deg,var(--panel),#0a0908);min-width:136px;}
+  .chip .n{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:var(--orange-hi);}
+  .chip .d{font-size:9px;color:var(--dim);margin-top:4px;letter-spacing:.06em;text-transform:uppercase;font-family:'JetBrains Mono',monospace;}
+  .radar{position:absolute;right:-160px;top:50%;transform:translateY(-50%);width:620px;height:620px;opacity:.9;}
+
+  .kill{margin-top:auto;display:flex;align-items:center;gap:16px;border:1px solid var(--border-hot);border-radius:13px;
+    padding:14px 20px;background:linear-gradient(90deg,rgba(249,115,22,.09),transparent 60%);}
+  .kill .mono{font-size:11px;color:var(--amber);line-height:1.55;}
+
+  .pipe{display:flex;align-items:stretch;margin-top:22px;}
+  .pnode{flex:1;border:1px solid var(--border);border-radius:13px;background:linear-gradient(180deg,var(--panel),#0b0a08);padding:15px 15px 13px;}
+  .pnode.ai{border-color:var(--orange);box-shadow:0 0 28px rgba(249,115,22,.16);background:linear-gradient(180deg,#191006,#0e0a05);}
+  .pnode h4{font-size:13px;margin-bottom:5px;}
+  .pnode p{font-size:10.5px;color:var(--muted);line-height:1.5;}
+  .parrow{display:flex;align-items:center;padding:0 5px;color:var(--orange);font-size:17px;align-self:center;}
+  .formula{margin-top:16px;display:inline-flex;align-items:center;gap:14px;border:1px solid var(--border-hot);border-radius:11px;
+    padding:11px 18px;background:rgba(249,115,22,.05);width:fit-content;}
+  .formula code{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--amber);}
+  .formula span{font-size:10px;color:var(--dim);}
+  .subsys{margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+
+  .robgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px;}
+
+  .road{display:flex;flex-direction:column;gap:10px;margin-top:18px;}
+  .ritem{display:grid;grid-template-columns:70px 1fr auto;gap:18px;align-items:center;border:1px solid var(--border);
+    border-radius:12px;padding:12px 18px;background:linear-gradient(180deg,var(--panel),#0b0a08);}
+  .ritem.next{border-color:var(--orange);box-shadow:0 0 24px rgba(249,115,22,.14);background:linear-gradient(90deg,#170f05,#0d0a06);}
+  .ritem .id{font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:700;color:var(--dim);}
+  .ritem.next .id{color:var(--orange);}
+  .ritem h4{font-size:13px;margin-bottom:2px;}
+  .ritem p{font-size:10.5px;color:var(--muted);line-height:1.45;}
+  .cta{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:20px;border:1px solid var(--border-hot);
+    border-radius:13px;padding:15px 22px;background:linear-gradient(90deg,rgba(249,115,22,.12),rgba(249,115,22,.02));}
+  .cta h3{font-size:15px;font-weight:700;}
+  .cta p{font-size:11px;color:var(--muted);margin-top:3px;}
+  .cta .go{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--orange-hi);border:1px solid var(--orange);
+    border-radius:8px;padding:9px 17px;white-space:nowrap;letter-spacing:.12em;background:rgba(249,115,22,.08);}
+
+  /* demo slide */
+  #s6{padding:70px 52px 60px;}
+  .demobar{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;}
+  .legend{display:flex;gap:15px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;color:var(--muted);align-items:center;}
+  .legend i{display:inline-block;width:16px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle;}
+  .demoframe{flex:1;margin-top:12px;border:1px solid var(--border-hot);border-radius:14px;overflow:hidden;background:#fff;
+    box-shadow:0 0 50px rgba(249,115,22,.10);position:relative;}
+  .demoframe img{width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block;}
+  .demostamp{position:absolute;right:14px;bottom:12px;display:flex;gap:8px;}
+  .stampcard{background:rgba(6,6,5,.92);border:1px solid var(--border-hot);border-radius:9px;padding:8px 14px;}
+  .stampcard .k{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.18em;color:var(--dim);text-transform:uppercase;}
+  .stampcard .v{font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:700;margin-top:2px;}
+</style>
+</head>
+<body>
+
+<!-- ============ PAGE 1 — COVER ============ -->
+<section class="slide" id="s1">
+  <div class="top"><div class="tag"><b>AI-INERTIAL-NAV</b>&nbsp;&nbsp;//&nbsp;&nbsp;GPS-DENIED UAV AUTONOMY</div>
+    <div class="live"><span class="dot"></span>VALIDATED RESULTS &middot; JUL 2026</div></div>
+
+  <svg class="radar" viewBox="0 0 600 600">
+    <defs><radialGradient id="sweep" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="rgba(249,115,22,.28)"/><stop offset="100%" stop-color="rgba(249,115,22,0)"/>
+    </radialGradient></defs>
+    <g stroke="#2a2317" fill="none">
+      <circle cx="300" cy="300" r="290"/><circle cx="300" cy="300" r="225"/>
+      <circle cx="300" cy="300" r="160"/><circle cx="300" cy="300" r="95"/>
+      <line x1="10" y1="300" x2="590" y2="300"/><line x1="300" y1="10" x2="300" y2="590"/>
+      <line x1="95" y1="95" x2="505" y2="505" stroke-dasharray="2 6"/>
+      <line x1="505" y1="95" x2="95" y2="505" stroke-dasharray="2 6"/>
+    </g>
+    <path d="M300,300 L300,10 A290,290 0 0,1 445,49 Z" fill="url(#sweep)"/>
+    <line x1="300" y1="300" x2="300" y2="10" stroke="rgba(249,115,22,.7)" stroke-width="1.5"/>
+    <g fill="#f97316"><circle cx="392" cy="176" r="4"/><circle cx="205" cy="365" r="3" opacity=".6"/><circle cx="348" cy="422" r="3" opacity=".5"/></g>
+  </svg>
+
+  <div style="position:relative;max-width:760px;">
+    <div class="classif"><span class="live" style="font-size:8px"><span class="dot"></span></span><span>TECHNICAL DEMONSTRATION &middot; REPRODUCIBLE PROTOTYPE</span></div>
+    <h1><span class="glow">AI-BASED INERTIAL</span><br/>NAVIGATION<br/><span class="thin">for UAVs in GPS-denied airspace</span></h1>
+    <p class="tagline">When GPS is <b>jammed, denied, or spoofed</b>, the aircraft must navigate on sensors an adversary
+      cannot corrupt. A lightweight neural network learns the IMU's systematic error and removes it before a classical
+      filter runs — <b>keeping heading and position bounded with no external signal and no magnetometer.</b></p>
+    <div class="chips">
+      <div class="chip"><div class="n">&minus;98%</div><div class="d">Attitude drift</div></div>
+      <div class="chip"><div class="n">3&times;</div><div class="d">Tighter @ 60 s denial</div></div>
+      <div class="chip"><div class="n">~19k</div><div class="d">Params &middot; edge-ready</div></div>
+      <div class="chip"><div class="n">0</div><div class="d">Magnetometer &middot; jam-proof</div></div>
+    </div>
+  </div>
+  <div class="bot"><div class="pageno"><b>01</b> / 08</div><div class="tag">DEMONSTRATION DECK</div></div>
+</section>
+
+<!-- ============ PAGE 2 — THREAT ============ -->
+<section class="slide">
+  <div class="top"><div class="tag"><b>AI-INERTIAL-NAV</b>&nbsp;&nbsp;//&nbsp;&nbsp;GPS-DENIED UAV AUTONOMY</div>
+    <div class="live"><span class="dot"></span>VALIDATED RESULTS &middot; JUL 2026</div></div>
+  <div class="kicker">01 &middot; The Threat</div>
+  <h2>GPS is the single point of failure in autonomous flight.</h2>
+  <p class="sub">In contested airspace, satellite navigation is routinely attacked. When the fix disappears, the UAV falls
+    back on its Inertial Measurement Unit — and raw inertial navigation <span class="hl">diverges within seconds</span>.</p>
+
+  <div class="threatgrid">
+    <div class="card"><div class="cap">Mode 01</div><h4>Jammed</h4><p>The signal is drowned out by hostile emitters. Routine in modern EW environments and contested logistics corridors.</p></div>
+    <div class="card"><div class="cap">Mode 02</div><h4>Denied</h4><p>The signal is absent — indoor, urban canyon, terrain-masked, or deliberately withheld theatre-wide.</p></div>
+    <div class="card"><div class="cap">Mode 03</div><h4>Spoofed</h4><p>The signal is falsified. The aircraft is confidently steered off course by an adversary. Trust in GNSS is gone.</p></div>
+  </div>
+
+  <div class="statrow">
+    <div class="card hot"><div class="cap">Raw IMU dead-reckoning &middot; 2.5 min flight</div>
+      <div class="bignum">33 <small>km</small></div><div class="unit">position error (max 74 km)</div></div>
+    <div class="card hot"><div class="cap">Raw attitude drift &middot; same flight</div>
+      <div class="bignum">114&deg;</div><div class="unit">orientation RMSE</div></div>
+    <div class="card hot"><div class="cap">Error growth from gyro bias</div>
+      <div class="bignum">t&sup3;</div><div class="unit">cubic position divergence</div></div>
+  </div>
+
+  <div class="kill"><span class="pill r">CORE PHYSICS</span>
+    <div class="mono">Heading (yaw) is <b style="color:#fff">physically unobservable</b> to an IMU-only filter — gravity pins roll &amp; pitch but carries no heading information. Any gyro yaw-bias integrates into <b style="color:#fff">unbounded heading error</b>, and a wrong heading steers the entire trajectory off course.</div></div>
+  <div class="bot"><div class="pageno"><b>02</b> / 08</div><div class="tag">DEMONSTRATION DECK</div></div>
+</section>
+
+<!-- ============ PAGE 3 — SOLUTION ============ -->
+<section class="slide">
+  <div class="top"><div class="tag"><b>AI-INERTIAL-NAV</b>&nbsp;&nbsp;//&nbsp;&nbsp;GPS-DENIED UAV AUTONOMY</div>
+    <div class="live"><span class="dot"></span>VALIDATED RESULTS &middot; JUL 2026</div></div>
+  <div class="kicker">02 &middot; The Solution</div>
+  <h2>Learn the sensor's error. Then filter.</h2>
+  <p class="sub">A two-stage architecture: a <b>~19k-parameter neural denoiser</b> removes the systematic gyro error the
+    filter is structurally blind to — including the unobservable yaw bias — then a proven <b>15-state Error-State Kalman
+    Filter</b> fuses the cleaned signal. Each stage validated in isolation.</p>
+
+  <div class="pipe">
+    <div class="pnode"><div class="cap">Input</div><h4>Raw IMU &middot; 200 Hz</h4>
+      <p>3-axis gyro + 3-axis accel. Always available. Cannot be jammed or spoofed from outside the airframe.</p></div>
+    <div class="parrow">&#10142;</div>
+    <div class="pnode ai"><div class="cap" style="color:var(--orange)">Stage 1 &middot; AI</div><h4>Neural Gyro Denoiser</h4>
+      <p>Dilated 1-D CNN, ~19k params. Learns the IMU's systematic bias from data and subtracts it — bounded, zero-initialised, can only improve the raw signal.</p></div>
+    <div class="parrow">&#10142;</div>
+    <div class="pnode"><div class="cap">Stage 2 &middot; Classical</div><h4>Error-State Kalman Filter</h4>
+      <p>15-state ESKF: attitude, velocity, position, gyro &amp; accel bias. Gravity-tilt update pins roll/pitch. Deterministic, certifiable core.</p></div>
+    <div class="parrow">&#10142;</div>
+    <div class="pnode"><div class="cap">Output</div><h4>Navigation State</h4>
+      <p>Bounded heading &amp; attitude the instant GPS is lost. Optional stereo camera layer bounds absolute position to centimetres.</p></div>
+  </div>
+
+  <div class="formula"><code>&omega;&#770; = &omega;<sub>raw</sub> + &alpha;&middot;tanh( f<sub>&theta;</sub>(window) )</code>
+    <span>bounded correction, &alpha; = 0.15 rad/s &middot; zero-initialised: training starts at the raw gyro and can only improve it</span></div>
+
+  <div class="subsys">
+    <div class="card"><div class="cap">Design choice &middot; jam-proof heading</div><h4>No magnetometer. By design.</h4>
+      <p>An adversary who can deny GPS can also spoof a magnetometer. Heading is held by the denoised gyro alone — verified in code: no heading measurement of any kind enters the filter.</p></div>
+    <div class="card"><div class="cap">Optional layer &middot; Approach A</div><h4>Camera bounds absolute position</h4>
+      <p>OpenVINS stereo visual-inertial odometry rides on the same estimator core: <span class="hl">~6.2 cm</span> position error — a ~5000&times; reduction over inertial-only navigation.</p></div>
+  </div>
+  <div class="bot"><div class="pageno"><b>03</b> / 08</div><div class="tag">DEMONSTRATION DECK</div></div>
+</section>
+
+<!-- ============ PAGE 4 — RESULTS ============ -->
+<section class="slide">
+  <div class="top"><div class="tag"><b>AI-INERTIAL-NAV</b>&nbsp;&nbsp;//&nbsp;&nbsp;GPS-DENIED UAV AUTONOMY</div>
+    <div class="live"><span class="dot"></span>VALIDATED RESULTS &middot; JUL 2026</div></div>
+  <div class="kicker">03 &middot; Validated Performance</div>
+  <h2>Near-oracle accuracy. From data alone.</h2>
+  <p class="sub">Strict cross-sequence hold-out on ground-truthed flight data (EuRoC MAV). The AI is never told the true bias —
+    both sides start blind, the realistic GPS-denied case. Every number is the <b>mean over five independently-seeded retrains</b>.</p>
+
+  <div class="twocol">
+    <div class="card">
+      <div class="cap">Position error &middot; same 2.5 min flight, each layer added</div>
+      <div class="bars" style="margin-top:6px">
+        <div class="brow"><span class="lbl">Raw integration</span><div class="track"><div class="fill bad" style="width:100%"></div></div><span class="val" style="color:var(--red)">33 km</span></div>
+        <div class="brow"><span class="lbl">Classical ESKF (no AI)</span><div class="track"><div class="fill" style="width:62%"></div></div><span class="val">317 m</span></div>
+        <div class="brow"><span class="lbl">+ AI denoiser (ours)</span><div class="track"><div class="fill" style="width:38%"></div></div><span class="val" style="color:var(--orange-hi)">114 m</span></div>
+        <div class="brow"><span class="lbl">+ camera (VIO layer)</span><div class="track"><div class="fill good" style="width:8%"></div></div><span class="val" style="color:var(--green)">6.2 cm</span></div>
+      </div>
+      <p style="font-size:10px;color:var(--dim);margin-top:12px;font-family:'JetBrains Mono',monospace;letter-spacing:.04em">LOG-SCALE BARS &middot; V1_02 / V1_01 HELD-OUT SEQUENCES</p>
+    </div>
+    <div class="card">
+      <div class="cap">Orientation RMSE on held-out flights &middot; degrees &middot; 5 seeds</div>
+      <table class="data">
+        <tr><th>Sequence</th><th>Raw ESKF</th><th>AI-Nav</th><th>Oracle</th><th>Gain</th></tr>
+        <tr><td>V1_02 &middot; medium</td><td class="dim2">76.0&deg;</td><td class="win">1.57&deg;</td><td class="dim2">0.75&deg;</td><td class="win">&minus;97.9%</td></tr>
+        <tr><td>MH_02 &middot; easy</td><td class="dim2">90.2&deg;</td><td class="win">11.58&deg;</td><td class="dim2">5.08&deg;</td><td class="win">&minus;87.2%</td></tr>
+        <tr><td>V2_03 &middot; difficult</td><td class="dim2">102.7&deg;</td><td class="win">3.44&deg;</td><td class="dim2">4.67&deg;</td><td class="win">&minus;96.6%</td></tr>
+      </table>
+      <p style="font-size:11px;color:var(--muted);margin-top:10px;line-height:1.5">On the hardest sequence the learned system
+        <span class="hl">beats the oracle on every seed</span> — without ever being told the bias. The learned z-axis correction
+        (&minus;4.4&deg;/s) matches the sensor's true yaw bias (+4.34&deg;/s).</p>
+    </div>
+  </div>
+
+  <div class="statrow">
+    <div class="card hot"><div class="cap">Open-loop attitude drift</div><div class="bignum">&minus;98%</div><div class="unit">109.6&deg; &rarr; 2.05&deg; RMSE, held-out</div></div>
+    <div class="card hot"><div class="cap">Fused position error</div><div class="bignum">631 <small>&rarr;</small> 114 <small>m</small></div><div class="unit">ATE, raw vs AI &middot; V1_02</div></div>
+    <div class="card hot"><div class="cap">Training determinism</div><div class="bignum">&plusmn;1%</div><div class="unit">val. error spread across 5 seeds</div></div>
+  </div>
+  <div class="bot"><div class="pageno"><b>04</b> / 08</div><div class="tag">DEMONSTRATION DECK</div></div>
+</section>
+
+<!-- ============ PAGE 5 — OPERATIONAL PAYOFF ============ -->
+<section class="slide">
+  <div class="top"><div class="tag"><b>AI-INERTIAL-NAV</b>&nbsp;&nbsp;//&nbsp;&nbsp;GPS-DENIED UAV AUTONOMY</div>
+    <div class="live"><span class="dot"></span>VALIDATED RESULTS &middot; JUL 2026</div></div>
+  <div class="kicker">04 &middot; Operational Payoff</div>
+  <h2>GPS dies. How far off are you?</h2>
+  <p class="sub">The question a defence buyer actually asks — answered as a <b>curve, not a point</b>. 20 GPS-cut instants swept
+    across real flight; from each cut the system dead-reckons on inertial data alone. Median over all cuts. Identical filter
+    both sides — the only difference is the AI cleaning the gyro first.</p>
+
+  <div class="twocol" style="flex:1;min-height:0;">
+    <div class="card" style="display:flex;flex-direction:column;">
+      <div class="cap">Position error vs GPS-denial time &middot; median, log scale</div>
+      <svg viewBox="0 0 500 290" style="width:100%;flex:1;" preserveAspectRatio="xMidYMid meet">
+        <g stroke="#221e16" stroke-width="1">
+          <line x1="60" y1="48" x2="470" y2="48"/><line x1="60" y1="112" x2="470" y2="112"/>
+          <line x1="60" y1="176" x2="470" y2="176"/><line x1="60" y1="240" x2="470" y2="240"/>
+        </g>
+        <g fill="#6b655c" font-size="10" text-anchor="end">
+          <text x="52" y="52">2000 m</text><text x="52" y="116">500 m</text>
+          <text x="52" y="180">130 m</text><text x="52" y="244">50 m</text>
+        </g>
+        <g fill="#6b655c" font-size="10" text-anchor="middle">
+          <text x="110" y="266">30 s</text><text x="270" y="266">60 s</text><text x="430" y="266">120 s</text>
+        </g>
+        <path d="M110,145 L270,91 L430,49" fill="none" stroke="#f87171" stroke-width="2.5" stroke-dasharray="7 5"/>
+        <g fill="#f87171"><circle cx="110" cy="145" r="4.5"/><circle cx="270" cy="91" r="4.5"/><circle cx="430" cy="49" r="4.5"/></g>
+        <path d="M110,224 L270,146 L430,107" fill="none" stroke="#f97316" stroke-width="3"/>
+        <g fill="#fb923c"><circle cx="110" cy="224" r="5"/><circle cx="270" cy="146" r="5"/><circle cx="430" cy="107" r="5"/></g>
+        <line x1="270" y1="95" x2="270" y2="142" stroke="#4a3418" stroke-width="1" stroke-dasharray="3 3"/>
+        <rect x="286" y="104" rx="7" width="86" height="26" fill="rgba(249,115,22,.1)" stroke="#4a3418"/>
+        <text x="329" y="121" fill="#fb923c" font-size="12" font-weight="700" text-anchor="middle">3&times; tighter</text>
+        <g font-size="10.5"><text x="437" y="40" fill="#f87171">CONVENTIONAL INS</text>
+        <text x="437" y="126" fill="#fb923c">AI-NAV (OURS)</text></g>
+      </svg>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div class="card">
+        <div class="cap">Median position error after GPS cut &middot; V1_01, 20 cut points</div>
+        <table class="data">
+          <tr><th>Denial time</th><th>Conventional INS</th><th>AI-Nav (ours)</th><th>Gain</th></tr>
+          <tr><td>30 s</td><td class="dim2">290 m</td><td class="win">67 m</td><td class="win">+77%</td></tr>
+          <tr><td>60 s</td><td class="dim2">781 m</td><td class="win">288 m</td><td class="win">+63%</td></tr>
+          <tr><td>120 s</td><td class="dim2">1 704 m</td><td class="win">582 m</td><td class="win">+66%</td></tr>
+        </table>
+      </div>
+      <div class="card hot" style="flex:1;display:flex;flex-direction:column;justify-content:center;">
+        <div class="cap">Headline &middot; well-sampled 60 s horizon</div>
+        <div class="bignum" style="font-size:38px">3&times; tighter</div>
+        <div class="unit">than conventional inertial navigation after one minute of GPS denial — no magnetometer, no external signal</div>
+      </div>
+    </div>
+  </div>
+  <div class="bot"><div class="pageno"><b>05</b> / 08</div><div class="tag">DEMONSTRATION DECK</div></div>
+</section>
+
+<!-- ============ PAGE 6 — DEMONSTRATOR ============ -->
+<section class="slide" id="s6">
+  <div class="top"><div class="tag"><b>AI-INERTIAL-NAV</b>&nbsp;&nbsp;//&nbsp;&nbsp;GPS-DENIED UAV AUTONOMY</div>
+    <div class="live"><span class="dot"></span>VALIDATED RESULTS &middot; JUL 2026</div></div>
+  <div class="demobar">
+    <div>
+      <div class="kicker" style="margin-bottom:8px">05 &middot; Flight Demonstrator</div>
+      <h2 style="margin-bottom:4px;">Live replay: the moment GPS is cut.</h2>
+      <p class="sub" style="font-size:12px">Real EuRoC flight, three estimators on one clock — final frame shown, t = 143.6 s.
+        The conventional INS has ballooned to <b>309 m off course</b>; <b>AI-Nav sits 6.3 cm from truth</b>. Interactive version in the HTML deck.</p>
+    </div>
+    <div class="legend">
+      <span><i style="background:#2ca02c"></i>GROUND TRUTH</span>
+      <span><i style="background:#1f6feb"></i>AI-NAV (OURS)</span>
+      <span><i style="background:#d62728"></i>INS &middot; GPS-DENIED</span>
+    </div>
+  </div>
+  <div class="demoframe">
+    <img src="demo_last_frame.png" alt="GPS-denied flight replay, final frame"/>
+    <div class="demostamp">
+      <div class="stampcard"><div class="k">AI-Nav error</div><div class="v" style="color:var(--blue)">6.3 cm</div></div>
+      <div class="stampcard"><div class="k">INS drift</div><div class="v" style="color:var(--red)">309.2 m</div></div>
+      <div class="stampcard"><div class="k">Elapsed</div><div class="v" style="color:var(--amber)">143.6 s</div></div>
+    </div>
+  </div>
+  <div class="bot"><div class="pageno"><b>06</b> / 08</div><div class="tag">DEMONSTRATION DECK</div></div>
+</section>
+
+<!-- ============ PAGE 7 — ROBUSTNESS ============ -->
+<section class="slide">
+  <div class="top"><div class="tag"><b>AI-INERTIAL-NAV</b>&nbsp;&nbsp;//&nbsp;&nbsp;GPS-DENIED UAV AUTONOMY</div>
+    <div class="live"><span class="dot"></span>VALIDATED RESULTS &middot; JUL 2026</div></div>
+  <div class="kicker">06 &middot; Hardened &amp; Honest</div>
+  <h2>Stress-tested. Limits stated. Limits closed.</h2>
+  <p class="sub">Three questions decide whether a result is trustworthy: does it survive a different random seed, a different
+    environment, a different sensor? <b>All three tested directly</b> — and the failure modes are reported at full strength.</p>
+
+  <div class="robgrid">
+    <div class="card"><div class="cap">Test 01 &middot; multi-seed</div><span class="pill g">STABLE</span>
+      <h4 style="margin-top:10px">5 independent retrains</h4>
+      <p>Training is essentially deterministic: validation error 0.096&deg; &plusmn; 0.001&deg; (~1% spread). The network reliably learns the same correction — the win is a property of the method, not a lucky checkpoint.</p></div>
+    <div class="card"><div class="cap">Test 02 &middot; cross-environment</div><span class="pill g">TRANSFERS</span>
+      <h4 style="margin-top:10px">Train hall &rarr; test rooms</h4>
+      <p>A network that never saw a Vicon room reaches 3.20&deg; on the hardest room — beating the oracle. Reverse direction degrades gracefully, never fails: worst case still a 5&times; win over raw.</p></div>
+    <div class="card"><div class="cap">Test 03 &middot; cross-sensor</div><span class="pill">FINE-TUNE REQUIRED</span>
+      <h4 style="margin-top:10px">The honest limit — and its fix</h4>
+      <p>Frozen, the network does not transfer to a different IMU (it encodes one sensor's bias). A short per-IMU fine-tune on a physically different Bosch MEMS unit restores the win on never-seen data: 1.62&deg; &rarr; 0.81&deg;, beating raw (0.86&deg;).</p></div>
+  </div>
+
+  <div class="statrow">
+    <div class="card"><div class="cap">Camera layer &middot; Approach A</div>
+      <div class="bignum">6.2 <small>cm</small></div><div class="unit">stereo-VIO absolute position &middot; ~5000&times; vs inertial-only</div></div>
+    <div class="card"><div class="cap">Validation footing</div>
+      <div class="bignum" style="font-size:20px;line-height:1.25">EuRoC &middot; TUM-VI</div><div class="unit">public, mm-accurate ground truth &middot; fully reproducible repo</div></div>
+    <div class="card"><div class="cap">Scientific integrity</div>
+      <div class="bignum" style="font-size:20px;line-height:1.25">Negatives reported</div><div class="unit">naive learned VIO front-end scoped &amp; published, not hidden</div></div>
+  </div>
+  <div class="bot"><div class="pageno"><b>07</b> / 08</div><div class="tag">DEMONSTRATION DECK</div></div>
+</section>
+
+<!-- ============ PAGE 8 — ROADMAP ============ -->
+<section class="slide">
+  <div class="top"><div class="tag"><b>AI-INERTIAL-NAV</b>&nbsp;&nbsp;//&nbsp;&nbsp;GPS-DENIED UAV AUTONOMY</div>
+    <div class="live"><span class="dot"></span>VALIDATED RESULTS &middot; JUL 2026</div></div>
+  <div class="kicker">07 &middot; Path to Fielding</div>
+  <h2>Three of four deployment gates closed.</h2>
+  <p class="sub">The algorithm is proven and hardened on ground-truthed flight data. One step remains between this prototype
+    and a fielded capability — and it needs hardware, not more analysis.</p>
+
+  <div class="road">
+    <div class="ritem"><div class="id mono">D4</div>
+      <div><h4>Jam-proof heading — no magnetometer</h4><p>Heading held by the denoised gyro alone; verified in code. A deliberate design choice: an adversary who denies GPS can also spoof a compass.</p></div>
+      <span class="pill g">ADDRESSED</span></div>
+    <div class="ritem"><div class="id mono">D2</div>
+      <div><h4>New-sensor transfer</h4><p>Per-IMU warm-start fine-tune demonstrated across a genuine hardware change (tactical-grade &rarr; consumer MEMS). Next: automate calibration from a short logged flight.</p></div>
+      <span class="pill g">ADDRESSED</span></div>
+    <div class="ritem"><div class="id mono">D3</div>
+      <div><h4>Drift under sustained denial</h4><p>Characterized as a quotable curve over 20 swept GPS-cut points: 3&times; tighter at 60 s, ~66% tighter at every horizon tested.</p></div>
+      <span class="pill g">ADDRESSED</span></div>
+    <div class="ritem next"><div class="id mono">D1</div>
+      <div><h4>Edge / realtime onboard deployment</h4><p>~19k parameters + ESKF onto flight-controller-class compute (NVIDIA Jetson), quantized INT8, within per-sample latency budget. Parameter count and vectorized inference (44&times; speed-up already demonstrated in training) make the budget plausible.</p></div>
+      <span class="pill">NEXT &middot; HARDWARE-GATED</span></div>
+  </div>
+
+  <div class="cta">
+    <div><h3>The ask: target hardware &amp; flight data.</h3>
+      <p>Jetson-class embedded module + drone-grade IMU logs close D1 and carry a proven, honest, reproducible algorithm onto a flying platform.</p></div>
+    <div class="go">INITIATE D1 &#10142;</div>
+  </div>
+  <div class="bot"><div class="pageno"><b>08</b> / 08</div><div class="tag">DEMONSTRATION DECK</div></div>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(PYTHONIOENCODING=utf-8 PYTHONUTF8=1 .venv/Scripts/python.exe scripts/fetch_euroc_csv.py vicon_room2 --seq V2_01_easy --seq V2_02_medium)",
+      "Bash(PYTHONIOENCODING=utf-8 PYTHONUTF8=1 .venv/Scripts/python.exe scripts/fetch_euroc_csv.py machine_hall --seq MH_01_easy --seq MH_03_medium)"
+    ]
+  }
+}
